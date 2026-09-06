@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+title: >-
+  VisionGuard: a research platform for measuring adversarial
+  robustness of embedding-based image retrieval
+message: >-
+  If you use this software or its results in your research,
+  please cite it using the metadata from this file.
+type: software
+authors:
+  - given-names: David
+    family-names: Cybulski
+    alias: cybulskydavid
+repository-code: 'https://github.com/cybulskydavid/vision-guard'
+abstract: >-
+  VisionGuard is a modular experiment platform for studying how
+  adversarial perturbations degrade image retrieval systems built on
+  frozen vision foundation models. It re-derives the FGSM, PGD and
+  Carlini-Wagner attacks to operate on embedding geometry rather than
+  class labels, and evaluates CLIP and DINO backbones on CUB-200-2011,
+  Stanford Cars and Stanford Online Products under raw, PCA-compressed
+  and metric-learning (Triplet, ArcFace) embedding heads. Retrieval
+  quality is measured with leave-one-out Recall@1 and mAP, reported as
+  mean and standard deviation across multiple independent seeds.
+keywords:
+  - adversarial-robustness
+  - adversarial-attacks
+  - image-retrieval
+  - metric-learning
+  - representation-learning
+  - vision-foundation-models
+  - clip
+  - dino
+  - pytorch
+license: MIT

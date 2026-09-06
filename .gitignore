@@ -1,0 +1,124 @@
+# ---------------------------------------------------------------------------
+# VisionGuard — experiment artifacts
+#
+# Everything this project produces is large, regenerable and machine-specific,
+# so none of it belongs in git. Paths mirror src/utils/path_creator.py and the
+# save paths used by the scripts in scripts/.
+# ---------------------------------------------------------------------------
+
+# Embedding galleries and adversarial features
+#   features/<loss>/<attack>/<iters>/<margin>/<model>/<dataset>/<dim>/<seed>/
+/features/
+
+# Per-batch resume cache written by LeaveOneOutMetricsCallback
+/cache/
+
+# Trained projection heads (metric learning) and fitted PCA bases
+/metric_learning/
+/pca/
+
+# Lightning CSVLogger runs and checkpoints
+/logs/
+lightning_logs/
+*.ckpt
+
+# Aggregated result bundles saved by the evaluation scripts
+/metric_learning_all_results.pt
+/metric_learning_all_results_eval.pt
+/metric_learning_eval_results.pt
+
+# Datasets (CUB / Cars / SOP live outside the repo; never commit them)
+# Anchored to the repository root so that src/data/ is unaffected.
+/data/
+/datasets/
+
+# Serialized tensors and model weights of any kind
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.npy
+*.npz
+
+# Downloaded backbone weights (CLIP / DINO / HuggingFace caches)
+.cache/
+*_cache/
+
+# Hydra run directories
+outputs/
+multirun/
+.hydra/
+
+# Other experiment trackers
+wandb/
+runs/
+events.out.tfevents.*
+*.csv.gz
+
+# Cluster job output
+slurm-*.out
+*.log
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.conda/
+conda-meta/
+
+# Environment variables / local secrets
+.env
+.env.*
+!.env.example
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.ruff_cache/
+.pytype/
+.pyre/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+.tox/
+.nox/
+
+# Notebooks
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# ---------------------------------------------------------------------------
+# Editors and operating systems
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

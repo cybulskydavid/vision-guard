@@ -5,6 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
 ![Lightning](https://img.shields.io/badge/PyTorch%20Lightning-792EE5?logo=lightning&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 ![Domain](https://img.shields.io/badge/domain-adversarial%20robustness-critical)
 ![Task](https://img.shields.io/badge/task-image%20retrieval-informational)
 
@@ -202,9 +203,10 @@ A typical headline from this platform reads: *"under an invisible ε = 4/255 per
 **Requirements:** Python 3.12+, a CUDA GPU (CPU works but is impractical for iterative attacks).
 
 ```bash
-pip install torch torchvision pytorch-lightning torchmetrics pytorch-metric-learning transformers numpy
-pip install git+https://github.com/openai/CLIP.git
+pip install -r requirements.txt
 ```
+
+DINO ResNet-50 is pulled from `torch.hub` on first use, and CLIP/DINO transformer weights are downloaded on first use too, so the first run of a new backbone needs network access.
 
 **Point it at your data.** Dataset roots and class splits live in `src/schemas/datasets.py`; each dataset is expected in standard `ImageFolder` layout (one directory per class).
 
@@ -264,10 +266,16 @@ vision-guard/
 │       ├── path_creator.py                            # deterministic result paths
 │       ├── decorators.py                              # @ensure_eval
 │       └── logger.py                                  # consistent logging
-└── scripts/
-    ├── evaluation/                                    # clean, PCA and metric-learning studies
-    └── adversarial/                                   # attack studies
+├── scripts/
+│   ├── evaluation/                                    # clean, PCA and metric-learning studies
+│   └── adversarial/                                   # attack studies
+├── requirements.txt                                   # pinned-floor runtime dependencies
+├── CITATION.cff                                       # how to cite this work
+├── LICENSE                                            # MIT
+└── .gitignore                                         # excludes galleries, caches, checkpoints, datasets
 ```
+
+All experiment output (`features/`, `cache/`, `logs/`, `metric_learning/`, `pca/`, `*.pt`, `*.ckpt`) is deliberately kept out of version control — it is large, fully regenerable and machine-specific. Datasets are never committed either.
 
 ---
 
@@ -280,3 +288,15 @@ This is a research codebase, written to support a study rather than to ship as a
 - Some log messages are in Polish, reflecting the academic context the project was developed in.
 
 Everything that carries scientific weight — the splits, the mining, the attacks, the metric computation — lives in `src/` and is reusable, tested by repeated multi-seed runs, and deliberately kept independent of any single experiment.
+
+---
+
+## Citing this work
+
+If this platform or its results are useful in your own research, please cite it. GitHub renders the metadata in [`CITATION.cff`](CITATION.cff) as a **"Cite this repository"** button in the sidebar, which will generate a BibTeX or APA entry for you.
+
+## License
+
+Released under the [MIT License](LICENSE) — free to use, modify and build on, commercially or otherwise, with attribution.
+
+The pretrained backbones it loads carry their own terms: **CLIP** (MIT, OpenAI) and **DINO** (Apache 2.0, Meta AI). The datasets referenced in `src/schemas/datasets.py` — CUB-200-2011, Stanford Cars and Stanford Online Products — are distributed by their respective authors under their own licenses and are not included in this repository.
