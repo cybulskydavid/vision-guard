@@ -1,0 +1,44 @@
+# VisionGuard — runtime dependencies
+#
+# Install with:
+#     pip install -r requirements.txt
+#
+# Requires Python >= 3.12 (src/utils/path_creator.py uses nested f-strings).
+# A CUDA-capable GPU is strongly recommended: the iterative attacks (PGD, C&W)
+# are impractical on CPU.
+#
+# Version floors below are the lowest releases free of known advisories in the
+# GitHub Advisory Database; newer versions are fine.
+
+# --- Core deep learning ----------------------------------------------------
+# torch >= 2.6.0 also defaults torch.load to weights_only=True, which matters
+# because this project loads .pt galleries and projection layers from disk.
+torch>=2.6.0
+torchvision>=0.21.0
+numpy>=2.1.0
+
+# --- Training / evaluation harness -----------------------------------------
+# NOTE: Lightning checkpoint loading deserializes pickled data. Only load
+# checkpoints produced by your own runs, never ones from untrusted sources.
+pytorch-lightning>=2.5.0
+torchmetrics>=1.6.0
+
+# --- Metric learning losses, miners and samplers ---------------------------
+# Used by src/lightning/modules/projection_layer_module.py (Triplet, ArcFace)
+# and by the MPerClassSampler in the training script.
+pytorch-metric-learning>=2.8.0
+
+# --- Backbones -------------------------------------------------------------
+# transformers provides the DINO ViT-B/16 and ViT-S/16 checkpoints loaded in
+# src/utils/model_loader.py. DINO ResNet-50 comes from torch.hub at runtime.
+transformers>=5.10.0
+
+# OpenAI CLIP is not published on PyPI and must be installed from source.
+clip @ git+https://github.com/openai/CLIP.git
+
+# --- Imported by scripts/adversarial/* -------------------------------------
+# These are imported at module scope in the adversarial scripts, so they must
+# be installed for those entry points to start, even though the sweeps are
+# currently configured in code rather than through Hydra configs.
+hydra-core>=1.3.4
+omegaconf>=2.3.0
