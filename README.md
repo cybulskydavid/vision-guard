@@ -9,6 +9,8 @@
 ![Domain](https://img.shields.io/badge/domain-adversarial%20robustness-critical)
 ![Task](https://img.shields.io/badge/task-image%20retrieval-informational)
 
+> **Follow-up to my master's thesis.** The thesis asked the research question; this repository is the engineering answer to it — the same investigation rebuilt as a reusable, reproducible platform that anyone can run, extend and audit. See [Relationship to the master's thesis](#relationship-to-the-masters-thesis).
+
 ---
 
 ## The problem, in one minute
@@ -46,6 +48,35 @@ Not a single script. A **modular experiment bench** where every part of the pipe
 | **Reported metrics**      | Recall@1 and mAP, clean vs. attacked, mean ± standard deviation across seeds |
 
 Multiplied out, that is thousands of legitimate experiment configurations — all driven by the same reusable core in `src/`.
+
+---
+
+## Relationship to the master's thesis
+
+This project began as my **master's thesis** on the adversarial robustness of embedding-based image retrieval. The thesis established the research question and the findings; this repository is the part that outlives it.
+
+> 📎 **Thesis repository:** *link to be added here.*
+
+Academic code is usually written to produce one set of numbers for one document, and then it stops. The intent here was the opposite — to leave behind an instrument that still works after the defence:
+
+| | Typical research code | This repository |
+| --- | --- | --- |
+| **Goal** | Produce the results for one document | Let anyone reproduce, extend and challenge them |
+| **Structure** | Experiment logic and research logic interleaved | Reusable core in `src/`, experiment choices isolated in `scripts/` |
+| **Adding an attack** | Edit the experiment script | Implement `BaseAttack` in one new file |
+| **Adding a backbone or dataset** | Track dimensions and paths by hand | One entry in `src/schemas/` |
+| **Long runs** | Restart from zero after a crash | Per-batch caching, resumes where it stopped |
+| **Scale ceiling** | Comfortable on small datasets | Chunked metrics run on Stanford Online Products (22 634 classes) |
+| **Confidence in a number** | Single run | Multi-seed, mean ± standard deviation, validation-selected margins |
+
+What that buys, concretely:
+
+- **The scientific core is separated from the experiment.** Splits, neighbour mining, the attacks and the metric computation live in `src/` and know nothing about which study is being run. They can be lifted into a different project unchanged.
+- **The comparison was made genuinely fair.** PCA is fitted and then frozen into an `nn.Linear` layer, so the statistical baseline and the trained metric-learning head become the *same object type*. The attacks and the evaluation code cannot tell them apart — no accidental advantage for either side.
+- **The methodology is defensible.** Class-disjoint splits, leave-one-out scoring with the query excluded by identity, adversarial queries scored against a clean gallery, and model randomness separated from attack randomness.
+- **The results are self-describing.** Every output path encodes its full configuration, so thousands of runs cannot quietly contaminate each other.
+
+**In short:** the thesis answered *"how fragile is this?"* — this repository is the instrument that produced the answer, rebuilt so the next question can be answered too.
 
 ---
 
@@ -289,11 +320,15 @@ This is a research codebase, written to support a study rather than to ship as a
 
 Everything that carries scientific weight — the splits, the mining, the attacks, the metric computation — lives in `src/` and is reusable, tested by repeated multi-seed runs, and deliberately kept independent of any single experiment.
 
+If you are short on time, the two files that best show how this project thinks are [`src/attacks/cw.py`](src/attacks/cw.py) (the Carlini–Wagner attack, re-derived for retrieval) and [`src/lightning/callbacks/leave_one_out_metrics_callback.py`](src/lightning/callbacks/leave_one_out_metrics_callback.py) (memory-safe, methodologically strict evaluation).
+
 ---
 
 ## Citing this work
 
 If this platform or its results are useful in your own research, please cite it. GitHub renders the metadata in [`CITATION.cff`](CITATION.cff) as a **"Cite this repository"** button in the sidebar, which will generate a BibTeX or APA entry for you.
+
+If you are citing the underlying research rather than the software, please cite the master's thesis instead — the link will be added above once its repository is public.
 
 ## License
 

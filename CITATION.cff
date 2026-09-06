@@ -7,7 +7,7 @@ message: >-
   please cite it using the metadata from this file.
 type: software
 authors:
-  - given-names: David
+  - given-names: Dawid
     family-names: Cybulski
     alias: cybulskydavid
 repository-code: 'https://github.com/cybulskydavid/vision-guard'
@@ -21,6 +21,9 @@ abstract: >-
   and metric-learning (Triplet, ArcFace) embedding heads. Retrieval
   quality is measured with leave-one-out Recall@1 and mAP, reported as
   mean and standard deviation across multiple independent seeds.
+  The platform is the engineering follow-up to the author's master's
+  thesis on the same research question, generalised into reusable,
+  reproducible infrastructure.
 keywords:
   - adversarial-robustness
   - adversarial-attacks
@@ -32,3 +35,20 @@ keywords:
   - dino
   - pytorch
 license: MIT
+
+# The research this platform grew out of. Uncomment and complete once the
+# master's thesis repository is public — left commented rather than filled
+# with placeholders so that the "Cite this repository" button never emits
+# an incomplete citation.
+#
+# references:
+#   - type: thesis
+#     title: '<thesis title>'
+#     thesis-type: "Master's Thesis"
+#     authors:
+#       - given-names: Dawid
+#         family-names: Cybulski
+#     institution:
+#       name: '<university>'
+#     year: <year>
+#     url: '<thesis repository or repository record URL>'
